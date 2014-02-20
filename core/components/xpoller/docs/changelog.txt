@@ -1,0 +1,5 @@
+Changelog for xPoller.
+
+xPoller 0.0.1
+==============
+- Initial release.
