@@ -1,5 +1,9 @@
 Changelog for xPoller.
 
-xPoller 0.0.1
+0.0.2
 ==============
-- Initial release.
+- Added AJAX voting
+
+0.0.1
+==============
+- Polls: Manager interfase, Snippet, Chunks

@@ -62,7 +62,6 @@ class xPoller {
 				return $this->request->handleRequest();
 				break;
 			case 'web':
-
 				break;
 			default:
 				/* if you wanted to do any generic frontend stuff here.

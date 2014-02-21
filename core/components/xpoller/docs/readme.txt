@@ -1,10 +1,10 @@
 --------------------
 xPoller
 --------------------
-Author: John Doe <john@doe.com>
+Author: Ilya Utkin <ilyautkin@mail.ru>
 --------------------
 
-A basic Extra for MODx Revolution.
+A Poll-extra for MODx Revolution with AJAX and testings
 
 Feel free to suggest ideas/improvements/bugs on GitHub:
-http://github.com/username/xPoller/issues
+http://github.com/ilyautkin/xPoller/issues

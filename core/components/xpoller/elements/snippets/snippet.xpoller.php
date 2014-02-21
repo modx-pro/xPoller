@@ -1,7 +1,7 @@
 <?php
-
 $xPoller = $modx->getService('xpoller','xPoller',$modx->getOption('xpoller_core_path',null,$modx->getOption('core_path').'components/xpoller/').'model/xpoller/',$scriptProperties);
 if (!($xPoller instanceof xPoller)) return '';
+$modx->regClientScript($modx->getOption('assets_url').'components/xpoller/js/web/default.js');
 
 if (empty($formOuterTpl)) {$formOuterTpl = "tpl.xPoller.form.outer";}
 if (empty($resultOuterTpl)) {$resultOuterTpl = "tpl.xPoller.result.outer";}
@@ -11,6 +11,33 @@ if (empty($outputSeparator)) {$resultTpl = "\n";}
 
 if (empty($id) || !$question = $modx->getObject('xpQuestion', $id)) {return $modx->lexicon("xpoller_question_err_ns");}
 
+$params = $_GET;
+unset($params[$modx->getOption('request_param_alias')]);
+unset($params[$modx->getOption('request_param_id')]);
+
+if (!empty($_REQUEST['xp_action']) && $_REQUEST['qid'] == $id && $modx->user->isAuthenticated($modx->context->key)) {
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
+	if ($_REQUEST['xp_action'] == 'abstain') {
+        $_REQUEST['oid'] = 0;
+    } else {
+        if ($_REQUEST['oid']) {
+            $_REQUEST['uid'] = $modx->user->id;
+            if (!$modx->getObject('xpAnswer', array('uid' => $_REQUEST['uid'], 'qid' => $_REQUEST['qid']))) {
+                $answer = $modx->newObject('xpAnswer', $_REQUEST);
+                $answer->save();
+            }
+        }
+    }
+    unset($params['qid']);
+    unset($params['oid']);
+    unset($params['uid']);
+    unset($params['xp_action']);
+	if (!$isAjax && empty($placeholders['message'])) {
+		$modx->sendRedirect($modx->makeUrl($modx->resource->id, $modx->context->key, $params, 'full'));
+	}
+}
+
 if (!$modx->user->isAuthenticated($modx->context->key)
   || $modx->getObject('xpAnswer', array('uid' => $modx->user->id, 'qid' => $id))) {
     $tpl = $resultTpl;
@@ -18,33 +45,6 @@ if (!$modx->user->isAuthenticated($modx->context->key)
 } else {
     $tpl = $optionTpl;
     $outTpl = $formOuterTpl;
-}
-if (!empty($_REQUEST['xp_action']) && $_REQUEST['qid'] == $id && $modx->user->isAuthenticated($modx->context->key)) {
-    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
-
-	$params = $_GET;
-	unset($params[$modx->getOption('request_param_alias')]);
-	unset($params[$modx->getOption('request_param_id')]);
-
-	switch ($_REQUEST['xp_action']) {
-        case 'abstain':
-            $_REQUEST['oid'] = 0;
-        case 'answer':
-            $_REQUEST['uid'] = $modx->user->id;
-            if (!$modx->getObject('xpAnswer', array('uid' => $_REQUEST['uid'], 'qid' => $_REQUEST['qid']))) {
-                $answer = $modx->newObject('xpAnswer', $_REQUEST);
-                $answer->save();
-        	}
-            unset($params['qid']);
-            unset($params['oid']);
-            unset($params['uid']);
-            break;
-	}
-    
-    unset($params['xp_action']);
-	if (!$isAjax && empty($placeholders['message'])) {
-		$modx->sendRedirect($modx->makeUrl($modx->resource->id, $modx->context->key, $params, 'full'));
-	}
 }
 
 $options = $question->getMany('Options');
@@ -72,6 +72,7 @@ if (!empty($toPlaceholder)) {
 }
 
 if (!empty($isAjax)) {
+    header('Content-type: text/html; charset=utf-8');
     @session_write_close();
 	exit($output);
 }
