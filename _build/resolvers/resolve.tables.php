@@ -11,7 +11,10 @@ if ($object->xpdo) {
 
 			$manager = $modx->getManager();
 			$objects = array(
-				'xPollerItem',
+				'xpTest',
+				'xpQuestion',
+				'xpOption',
+				'xpAnswer'
 			);
 			foreach ($objects as $tmp) {
 				$manager->createObjectContainer($tmp);

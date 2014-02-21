@@ -3,8 +3,20 @@
 $chunks = array();
 
 $tmp = array(
-	'tpl.xPoller.item' => array(
-		'file' => 'item',
+	'tpl.xPoller.form.outer' => array(
+		'file' => 'form.outer',
+		'description' => '',
+	),
+	'tpl.xPoller.result.outer' => array(
+		'file' => 'result.outer',
+		'description' => '',
+	),
+	'tpl.xPoller.option' => array(
+		'file' => 'option',
+		'description' => '',
+	),
+	'tpl.xPoller.result' => array(
+		'file' => 'result',
 		'description' => '',
 	),
 );

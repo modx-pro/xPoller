@@ -27,7 +27,9 @@ class xPollerHomeManagerController extends xPollerMainController {
 	 * @return void
 	 */
 	public function loadCustomCssJs() {
-		$this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/widgets/items.grid.js');
+		$this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/widgets/tests.grid.js');
+		$this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/widgets/questions.grid.js');
+        $this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/widgets/options.grid.js');
 		$this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/widgets/home.panel.js');
 		$this->addJavascript($this->xPoller->config['jsUrl'] . 'mgr/sections/home.js');
 		$this->addHtml('<script type="text/javascript">

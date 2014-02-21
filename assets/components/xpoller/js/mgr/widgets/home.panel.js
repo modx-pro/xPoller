@@ -15,16 +15,27 @@ xPoller.panel.Home = function(config) {
 			,activeItem: 0
 			,hideMode: 'offsets'
 			,items: [{
-				title: _('xpoller_items')
-				,items: [{
+    			title: _('xpoller_polls')
+				,items: [/*{
 					html: _('xpoller_intro_msg')
 					,border: false
 					,bodyCssClass: 'panel-desc'
 					,bodyStyle: 'margin-bottom: 10px'
-				},{
-					xtype: 'xpoller-grid-items'
+				},*/{
+					xtype: 'xpoller-grid-questions'
 					,preventRender: true
 				}]
+			/*},{
+    			title: _('xpoller_tests')
+				,items: [/ *{
+					html: _('xpoller_intro_msg')
+					,border: false
+					,bodyCssClass: 'panel-desc'
+					,bodyStyle: 'margin-bottom: 10px'
+				},* /{
+					xtype: 'xpoller-grid-tests'
+					,preventRender: true
+				}]*/
 			}]
 		}]
 	});

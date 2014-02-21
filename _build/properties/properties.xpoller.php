@@ -1,27 +1,31 @@
 <?php
 
 $properties = array();
-
+if (empty($formOuterTpl)) {$formOuterTpl = "tpl.xPoller.form.outer";}
+if (empty($resultOuterTpl)) {$resultOuterTpl = "tpl.xPoller.result.outer";}
+if (empty($optionTpl)) {$optionTpl = "tpl.xPoller.option";}
+if (empty($resultTpl)) {$resultTpl = "tpl.xPoller.result";}
+if (empty($outputSeparator)) {$resultTpl = "\n";}
 $tmp = array(
-	'tpl' => array(
+	'id' => array(
 		'type' => 'textfield',
-		'value' => 'tpl.xPoller.item',
+		'value' => '',
 	),
-	'sortBy' => array(
+	'formOuterTpl' => array(
 		'type' => 'textfield',
-		'value' => 'name',
+		'value' => 'tpl.xPoller.form.outer',
 	),
-	'sortDir' => array(
-		'type' => 'list',
-		'options' => array(
-			array('text' => 'ASC', 'value' => 'ASC'),
-			array('text' => 'DESC', 'value' => 'DESC'),
-		),
-		'value' => 'ASC'
+	'resultOuterTpl' => array(
+		'type' => 'textfield',
+		'value' => 'tpl.xPoller.result.outer',
 	),
-	'limit' => array(
-		'type' => 'numberfield',
-		'value' => 5,
+	'optionTpl' => array(
+    	'type' => 'textfield',
+		'value' => 'tpl.xPoller.option',
+	),
+	'resultTpl' => array(
+    	'type' => 'textfield',
+		'value' => 'tpl.xPoller.result',
 	),
 	'outputSeparator' => array(
 		'type' => 'textfield',

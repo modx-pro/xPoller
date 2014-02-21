@@ -1,13 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model package="xpoller" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" phpdoc-package="xpoller" version="1.1">
 
-	<object class="xPollerItem" table="xpoller_items" extends="xPDOSimpleObject">
-		<field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
-		<field key="description" dbtype="text" phptype="text" null="true" default="" />
+    <object class="xpTest" table="xpoller_tests" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
 
-		<index alias="name" name="name" primary="false" unique="false" type="BTREE">
-			<column key="name" length="" collation="A" null="false" />
+		<composite alias="Questions" class="xpQuestion" local="id" foreign="pid" cardinality="many" owner="local" />
+	</object>
+
+
+	<object class="xpQuestion" table="xpoller_questions" extends="xPDOSimpleObject">
+		<field key="tid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="text" dbtype="text" phptype="text" null="true" default="" />
+    	<field key="closed" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" />
+        <field key="rank" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+        <field key="type" dbtype="varchar" precision="10" phptype="string" null="false" default="radio" />
+
+        <index alias="tid" name="tid" primary="false" unique="false" type="BTREE">
+			<column key="tid" length="" collation="A" null="false" />
 		</index>
+    	<index alias="rank" name="rank" primary="false" unique="false" type="BTREE">
+			<column key="rank" length="" collation="A" null="false" />
+		</index>
+    	<index alias="closed" name="closed" primary="false" unique="false" type="BTREE">
+			<column key="closed" length="" collation="A" null="false" />
+		</index>
+
+        <composite alias="Options" class="xpOption" local="id" foreign="qid" cardinality="many" owner="local" />
+        <composite alias="Answers" class="xpAnswer" local="id" foreign="qid" cardinality="many" owner="local" />
+		<aggregate alias="Test" class="xpTest" local="tid" foreign="id" cardinality="one" owner="foreign" />
+	</object>
+
+
+	<object class="xpOption" table="xpoller_options" extends="xPDOSimpleObject">
+		<field key="qid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="option" dbtype="varchar" precision="255" phptype="string" null="false" default="" />
+        <field key="rank" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+        <field key="right" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" />
+
+        <index alias="rank" name="rank" primary="false" unique="false" type="BTREE">
+			<column key="rank" length="" collation="A" null="false" />
+		</index>
+		<index alias="qid" name="qid" primary="false" unique="false" type="BTREE">
+			<column key="qid" length="" collation="A" null="false" />
+		</index>
+        <index alias="right" name="right" primary="false" unique="false" type="BTREE">
+			<column key="right" length="" collation="A" null="false" />
+		</index>
+
+        <composite alias="Answers" class="xpAnswer" local="id" foreign="oid" cardinality="many" owner="local" />
+		<aggregate alias="Question" class="xpQuestion" local="qid" foreign="id" cardinality="one" owner="foreign" />
+	</object>
+
+	<object class="xpAnswer" table="xpoller_answers" extends="xPDOSimpleObject">
+        <field key="uid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="qid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="oid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
+		<field key="timestamp" dbtype="timestamp" phptype="timestamp" null="false" default="CURRENT_TIMESTAMP" />
+
+    	<index alias="key" name="key" primary="false" unique="true" type="BTREE">
+			<column key="uid" length="" collation="A" null="false" />
+			<column key="qid" length="" collation="A" null="false" />
+			<column key="oid" length="" collation="A" null="false" />
+		</index>
+
+		<index alias="timestamp" name="timestamp" primary="false" unique="false" type="BTREE">
+			<column key="timestamp" length="" collation="A" null="false" />
+		</index>
+        
+        <aggregate alias="User" class="modUser" local="uid" foreign="id" cardinality="one" owner="foreign" />
+		<aggregate alias="Question" class="xpQuestion" local="qid" foreign="id" cardinality="one" owner="foreign" />
+		<aggregate alias="Option" class="xpOption" local="oid" foreign="id" cardinality="one" owner="foreign" />
 	</object>
 
 </model>

@@ -3,36 +3,78 @@
 $xPoller = $modx->getService('xpoller','xPoller',$modx->getOption('xpoller_core_path',null,$modx->getOption('core_path').'components/xpoller/').'model/xpoller/',$scriptProperties);
 if (!($xPoller instanceof xPoller)) return '';
 
-/**
- * Do your snippet code here. This demo grabs 5 items from our custom table.
- */
-$tpl = $modx->getOption('tpl',$scriptProperties,'Item');
-$sortBy = $modx->getOption('sortBy',$scriptProperties,'name');
-$sortDir = $modx->getOption('sortDir',$scriptProperties,'ASC');
-$limit = $modx->getOption('limit',$scriptProperties,5);
-$outputSeparator = $modx->getOption('outputSeparator',$scriptProperties,"\n");
+if (empty($formOuterTpl)) {$formOuterTpl = "tpl.xPoller.form.outer";}
+if (empty($resultOuterTpl)) {$resultOuterTpl = "tpl.xPoller.result.outer";}
+if (empty($optionTpl)) {$optionTpl = "tpl.xPoller.option";}
+if (empty($resultTpl)) {$resultTpl = "tpl.xPoller.result";}
+if (empty($outputSeparator)) {$resultTpl = "\n";}
 
-/* build query */
-$c = $modx->newQuery('xPollerItem');
-$c->sortby($sortBy,$sortDir);
-$c->limit($limit);
-$items = $modx->getCollection('xPollerItem',$c);
+if (empty($id) || !$question = $modx->getObject('xpQuestion', $id)) {return $modx->lexicon("xpoller_question_err_ns");}
 
-/* iterate through items */
-$list = array();
-/* @var xPollerItem $item */
-foreach ($items as $item) {
-	$itemArray = $item->toArray();
-	$list[] = $xPoller->getChunk($tpl,$itemArray);
+if (!$modx->user->isAuthenticated($modx->context->key)
+  || $modx->getObject('xpAnswer', array('uid' => $modx->user->id, 'qid' => $id))) {
+    $tpl = $resultTpl;
+    $outTpl = $resultOuterTpl;
+} else {
+    $tpl = $optionTpl;
+    $outTpl = $formOuterTpl;
+}
+if (!empty($_REQUEST['xp_action']) && $_REQUEST['qid'] == $id && $modx->user->isAuthenticated($modx->context->key)) {
+    $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
+	$params = $_GET;
+	unset($params[$modx->getOption('request_param_alias')]);
+	unset($params[$modx->getOption('request_param_id')]);
+
+	switch ($_REQUEST['xp_action']) {
+        case 'abstain':
+            $_REQUEST['oid'] = 0;
+        case 'answer':
+            $_REQUEST['uid'] = $modx->user->id;
+            if (!$modx->getObject('xpAnswer', array('uid' => $_REQUEST['uid'], 'qid' => $_REQUEST['qid']))) {
+                $answer = $modx->newObject('xpAnswer', $_REQUEST);
+                $answer->save();
+        	}
+            unset($params['qid']);
+            unset($params['oid']);
+            unset($params['uid']);
+            break;
+	}
+    
+    unset($params['xp_action']);
+	if (!$isAjax && empty($placeholders['message'])) {
+		$modx->sendRedirect($modx->makeUrl($modx->resource->id, $modx->context->key, $params, 'full'));
+	}
 }
 
-/* output */
-$output = implode($outputSeparator,$list);
-$toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
+$options = $question->getMany('Options');
+foreach ($options as $option) {
+    $optionVotes = $modx->getCount('xpAnswer', array(
+            'oid' => $option->id,
+			'qid' => $id
+        ));
+    if ($optionVotes > $maxVotes) {
+        $maxVotes = $optionVotes;
+    }
+    $optionsOut[] = array_merge($option->toArray(),array('votes' => $optionVotes));
+}
+foreach ($optionsOut as $k => $opt) {
+    $opt['percentVotes'] = round($opt['votes'] / $maxVotes * 100, 2);
+    $optionsOut[$k] = $xPoller->getChunk($tpl,$opt);
+}
+$questionArray = $question->toArray();
+$questionArray['options'] = implode($outputSeparator, $optionsOut);
+$output = $xPoller->getChunk($outTpl,$questionArray);
+
 if (!empty($toPlaceholder)) {
-	/* if using a placeholder, output nothing and set output to specified placeholder */
-	$modx->setPlaceholder($toPlaceholder,$output);
+    $modx->setPlaceholder($toPlaceholder,$output);
 	return '';
 }
-/* by default just return output */
-return $output;
+
+if (!empty($isAjax)) {
+    @session_write_close();
+	exit($output);
+}
+else {
+	return $output;
+}
