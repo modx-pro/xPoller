@@ -12,7 +12,7 @@ xPoller.panel.Home = function(config) {
 			,bodyStyle: 'padding: 10px'
 			,defaults: { border: false ,autoHeight: true }
 			,border: true
-			,activeItem: 0
+			,activeItem: parseInt(MODx.request.tab)
 			,hideMode: 'offsets'
 			,items: [{
     			title: _('xpoller_polls')
@@ -27,12 +27,7 @@ xPoller.panel.Home = function(config) {
 				}]
 			/*},{
     			title: _('xpoller_tests')
-				,items: [/ *{
-					html: _('xpoller_intro_msg')
-					,border: false
-					,bodyCssClass: 'panel-desc'
-					,bodyStyle: 'margin-bottom: 10px'
-				},* /{
+				,items: [{
 					xtype: 'xpoller-grid-tests'
 					,preventRender: true
 				}]*/

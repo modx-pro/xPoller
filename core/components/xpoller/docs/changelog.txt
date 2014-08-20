@@ -1,5 +1,25 @@
 Changelog for xPoller.
 
+0.0.7
+==============
+- Changed alhoritm counting of Max votes
+
+0.0.6
+==============
+- Changed sorting of options in frontend
+
+0.0.5
+==============
+- Removed logs
+
+0.0.4
+==============
+- Testings temporary removed
+
+0.0.3
+==============
+- Added testings
+
 0.0.2
 ==============
 - Added AJAX voting

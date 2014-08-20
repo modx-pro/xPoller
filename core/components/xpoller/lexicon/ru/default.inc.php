@@ -29,9 +29,9 @@ $_lang['xpoller_test_remove'] = 'Удалить тестирование';
 $_lang['xpoller_tests_remove'] = 'Удалить тесты';
 $_lang['xpoller_test_remove_confirm'] = 'Вы уверены, что хотите удалить это тестирование?';
 $_lang['xpoller_tests_remove_confirm'] = 'Вы уверены, что хотите удалить эти тесты?';
-$_lang['xpoller_test_create'] = 'Создать тестирование';
-$_lang['xpoller_test_remove'] = 'Удалить тестирование';
-$_lang['xpoller_test_update'] = 'Изменить тестирование';
+$_lang['xpoller_test_create'] = 'Добавить тестирование';
+$_lang['xpoller_test_remove'] = 'Удалить тест';
+$_lang['xpoller_test_update'] = 'Изменить название';
 
 $_lang['xpoller_question_err_ns'] = 'Вопрос не найден';
 $_lang['xpoller_question_err_ae'] = 'Такой вопрос уже есть.';
@@ -47,6 +47,7 @@ $_lang['xpoller_questions'] = 'Вопросы';
 $_lang['xpoller_question_closed'] = 'Закрыт';
 
 $_lang['xpoller_option_err_ae'] = 'Такой вариант уже есть.';
+$_lang['xpoller_option_err_ae_right'] = 'Верный вариант ответа уже указан.';
 $_lang['xpoller_option_remove'] = 'Удалить вариант';
 $_lang['xpoller_options_remove'] = 'Удалить варианты';
 $_lang['xpoller_option_remove_confirm'] = 'Вы уверены, что хотите удалить этот вариант?';
@@ -56,3 +57,5 @@ $_lang['xpoller_option_remove'] = 'Удалить вариант';
 $_lang['xpoller_option_update'] = 'Изменить вариант';
 $_lang['xpoller_option'] = 'Вариант ответа';
 $_lang['xpoller_option_right'] = 'Верный вариант';
+
+$_lang['xpoller_need_auth'] = 'В тесте могут принимать участие только авторизованные пользователи';

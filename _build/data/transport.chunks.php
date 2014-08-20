@@ -7,6 +7,10 @@ $tmp = array(
 		'file' => 'form.outer',
 		'description' => '',
 	),
+	'tpl.xPoller.form.test.outer' => array(
+		'file' => 'form.test.outer',
+		'description' => '',
+	),
 	'tpl.xPoller.result.outer' => array(
 		'file' => 'result.outer',
 		'description' => '',

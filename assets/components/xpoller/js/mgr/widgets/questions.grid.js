@@ -7,6 +7,7 @@ xPoller.grid.Questions = function(config) {
 		,baseParams: {
 			action: 'mgr/question/getlist'
             ,type:  'question'
+            ,tid: parseInt(MODx.request.test)
 		}
 		,fields: ['id','text','rank','closed']
 		,autoHeight: true
@@ -181,7 +182,10 @@ xPoller.window.CreateItem = function(config) {
 		,height: 100
 		,width: 475
 		,url: xPoller.config.connector_url
-		,action: 'mgr/question/create'
+        ,baseParams: {
+            action: 'mgr/question/create'
+            ,tid: parseInt(MODx.request.test)
+        }
 		,fields: [
 			{xtype: 'textfield',fieldLabel: _('xpoller_question_text'),name: 'text',id: 'xpoller-'+this.ident+'-text',anchor: '99%'}
 		]

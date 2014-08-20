@@ -16,7 +16,7 @@ xPoller.grid.Options = function(config) {
 		,columns: [
 			{header: _('id'),dataIndex: 'id',width: 70}
 			,{header: _('xpoller_option'),dataIndex: 'option',width: 350}
-			,{header: _('xpoller_option_right'),dataIndex: 'right',width: 130,renderer: this.renderBoolean}
+			//,{header: _('xpoller_option_right'),dataIndex: 'right',width: 130,renderer: this.renderBoolean}
 		]
 		,tbar: [{
 			text: _('xpoller_option_create')
@@ -190,14 +190,14 @@ xPoller.window.CreateItem = function(config) {
         			,items: [
         				{xtype: 'textfield',fieldLabel: _('xpoller_option'),name: 'option',id: 'xpoller-'+this.ident+'-option',anchor: '99%'}
         			]
-        		},{
+        		/*},{
         			columnWidth: .3
         			,layout: 'form'
         			,defaults: { msgTarget: 'under' }
         			,border:false
         			,items: [
         				{xtype: 'combo-boolean',fieldLabel: _('xpoller_option_right'),name: 'right',hiddenName: 'right',id: 'xpoller-'+this.ident+'-right',anchor: '99%'}
-        			]
+        			]*/
         		}]
         	}]
 		,keys: [{key: Ext.EventObject.ENTER,shift: true,fn: function() {this.submit() },scope: this}]
@@ -217,7 +217,7 @@ xPoller.window.UpdateItem = function(config) {
 		,height: 100
 		,width: 475
 		,url: xPoller.config.connector_url
-		,action: 'mgr/question/option/update'
+        ,action: 'mgr/question/option/update'
 		,fields: [
 			{xtype: 'hidden',name: 'id',id: 'xpoller-'+this.ident+'-id'}
 			,{
@@ -232,14 +232,14 @@ xPoller.window.UpdateItem = function(config) {
         			,items: [
         				{xtype: 'textfield',fieldLabel: _('xpoller_option'),name: 'option',id: 'xpoller-'+this.ident+'-option',anchor: '99%'}
         			]
-        		},{
+        		/*},{
         			columnWidth: .3
         			,layout: 'form'
         			,defaults: { msgTarget: 'under' }
         			,border:false
         			,items: [
         				{xtype: 'combo-boolean',fieldLabel: _('xpoller_option_right'),name: 'right',hiddenName: 'right',id: 'xpoller-'+this.ident+'-right',anchor: '99%'}
-        			]
+        			]*/
         		}]
         	}
 		]

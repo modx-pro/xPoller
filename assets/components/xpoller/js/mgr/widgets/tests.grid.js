@@ -5,7 +5,7 @@ xPoller.grid.Tests = function(config) {
 		id: 'xpoller-grid-tests'
 		,url: xPoller.config.connector_url
 		,baseParams: {
-			action: 'mgr/poll/getlist'
+			action: 'mgr/test/getlist'
             ,type:  'test'
 		}
 		,fields: ['id','name','closed']
@@ -14,9 +14,9 @@ xPoller.grid.Tests = function(config) {
 		,remoteSort: true
         ,sm: this.sm
 		,columns: [
-			{header: _('id'),dataIndex: 'id',width: 70}
+			{header: _('id'),dataIndex: 'id',width: 40}
 			,{header: _('name'),dataIndex: 'name',width: 400}
-			,{header: _('xpoller_closed'),dataIndex: 'closed',width: 80}
+			/*,{header: _('xpoller_closed'),dataIndex: 'closed',width: 80}*/
 		]
 		,tbar: [{
 			text: _('xpoller_test_create')
@@ -45,6 +45,10 @@ Ext.extend(xPoller.grid.Tests,MODx.grid.Grid,{
     		});
         } else {
     		m.push({
+    			text: _('xpoller_questions')
+    			,handler: this.setupQuestions
+    		});
+    		m.push({
     			text: _('xpoller_test_update')
     			,handler: this.updateItem
     		});
@@ -69,15 +73,21 @@ Ext.extend(xPoller.grid.Tests,MODx.grid.Grid,{
 		this.windows.createItem.fp.getForm().reset();
 		this.windows.createItem.show(e.target);
 	}
+    
+    ,setupQuestions: function(btn, e) {
+        if (!this.menu.record || !this.menu.record.id) return false;
+        
+        location.href = '?a=' + MODx.request.a + '&action=questions&test=' + this.menu.record.id;
+    }
 
-	,updateItem: function(btn,e,row) {
+    ,updateItem: function(btn,e,row) {
 		if (typeof(row) != 'undefined') {this.menu.record = row.data;}
 		var id = this.menu.record.id;
 
 		MODx.Ajax.request({
 			url: xPoller.config.connector_url
 			,params: {
-				action: 'mgr/poll/get'
+				action: 'mgr/test/get'
 				,id: id
 			}
 			,listeners: {
@@ -107,7 +117,7 @@ Ext.extend(xPoller.grid.Tests,MODx.grid.Grid,{
 			,text: _('xpoller_test_remove_confirm')
 			,url: this.config.url
 			,params: {
-				action: 'mgr/poll/remove'
+				action: 'mgr/test/remove'
 				,id: this.menu.record.id
 			}
 			,listeners: {
@@ -137,7 +147,7 @@ Ext.extend(xPoller.grid.Tests,MODx.grid.Grid,{
 			,text: _('xpoller_tests_remove_confirm')
 			,url: this.config.url
 			,params: {
-                action: 'mgr/polls/remove'
+                action: 'mgr/tests/remove'
                 ,items: cs
             }
             ,listeners: {
@@ -187,7 +197,7 @@ xPoller.window.UpdateItem = function(config) {
 		,height: 100
 		,width: 475
 		,url: xPoller.config.connector_url
-		,action: 'mgr/poll/update'
+		,action: 'mgr/test/update'
 		,fields: [
 			{xtype: 'hidden',name: 'id',id: 'xpoller-'+this.ident+'-id'}
 			,{xtype: 'textfield',fieldLabel: _('name'),name: 'name',id: 'xpoller-'+this.ident+'-name',anchor: '99%'}

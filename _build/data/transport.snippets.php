@@ -7,6 +7,10 @@ $tmp = array(
 		'file' => 'xpoller',
 		'description' => '',
 	),
+	/*'xPollerTest' => array(
+		'file' => 'xpollertest',
+		'description' => '',
+	),*/
 );
 
 foreach ($tmp as $k => $v) {

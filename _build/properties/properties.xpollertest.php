@@ -2,13 +2,13 @@
 $properties = array();
 
 $tmp = array(
-	'id' => array(
+    'id' => array(
 		'type' => 'textfield',
 		'value' => '',
 	),
 	'formOuterTpl' => array(
 		'type' => 'textfield',
-		'value' => 'tpl.xPoller.form.outer',
+		'value' => 'tpl.xPoller.form.test.outer',
 	),
 	'resultOuterTpl' => array(
 		'type' => 'textfield',
