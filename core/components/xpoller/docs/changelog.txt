@@ -1,5 +1,9 @@
 Changelog for xPoller.
 
+0.0.8
+==============
+- Added real percents
+
 0.0.7
 ==============
 - Changed alhoritm counting of Max votes

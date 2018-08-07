@@ -51,9 +51,11 @@ if (!$modx->user->isAuthenticated($modx->context->key)
 $q = $modx->newQuery('xpOption');
 $q->where(array('qid' => $id));
 $q->select('`xpOption`.`id`, `xpOption`.`qid`, `xpOption`.`option`, `xpOption`.`rank`,
-            `xpOption`.`right`, `xpQuestion`.`text`, COUNT(DISTINCT `xpAnswer`.`uid`) as `votes`');
+            `xpOption`.`right`, `xpQuestion`.`text`, COUNT(DISTINCT `xpAnswer`.`uid`) as `votes`,
+            COUNT(`DISTINCT xpAllAnswers`.`id`) as `total`');
 $q->leftJoin('xpQuestion', 'xpQuestion', array('`xpOption`.`qid` = `xpQuestion`.`id`'));
 $q->leftJoin('xpAnswer',   'xpAnswer',   array('`xpAnswer`.`oid` = `xpOption`.`id`'));
+$q->leftJoin('xpAnswer',   'xpAllAnswers', array('`xpAllAnswers`.`qid` = `xpQuestion`.`id`'));
 $q->groupby('`xpOption`.`id`');
 $q->sortby('`xpOption`.`id`', 'ASC');
 $q->prepare();
@@ -72,7 +74,8 @@ if ($options) {
     if (empty($output['text'])) $output['text'] = $options[0]['text'];
     if (empty($output['id'])) $output['id'] = $options[0]['qid'];
     foreach ($options as $option) {
-        $option['percentVotes'] = round($option['votes'] / $output['maxVotes'] * 100, 2);
+        $option['percentVotes'] = number_format(round(($option['votes'] / $output['maxVotes']) * 100, 2), 2, '.', '');
+        $option['percent'] = number_format(round(($option['votes'] / $option['total']) * 100, 2), 2, ',', ' ');
         $output['options'][] = $xPoller->getChunk($tpl,$option);
     }
     $output['options'] = implode($outputSeparator, $output['options']);

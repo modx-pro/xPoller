@@ -4,6 +4,10 @@ $xpdo_meta_map['xpOption']= array (
   'version' => '1.1',
   'table' => 'xpoller_options',
   'extends' => 'xPDOSimpleObject',
+  'tableMeta' => 
+  array (
+    'engine' => 'MyISAM',
+  ),
   'fields' => 
   array (
     'qid' => 0,

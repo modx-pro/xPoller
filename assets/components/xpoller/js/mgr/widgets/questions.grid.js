@@ -179,7 +179,7 @@ xPoller.window.CreateItem = function(config) {
 	Ext.applyIf(config,{
 		title: _('xpoller_question_create')
 		,id: this.ident
-		,height: 100
+		,height: 180
 		,width: 475
 		,url: xPoller.config.connector_url
         ,baseParams: {
