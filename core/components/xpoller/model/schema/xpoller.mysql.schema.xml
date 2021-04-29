@@ -10,7 +10,7 @@
 
 	<object class="xpQuestion" table="xpoller_questions" extends="xPDOSimpleObject">
 		<field key="tid" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
-		<field key="text" dbtype="text" phptype="text" null="true" default="" />
+		<field key="text" dbtype="text" phptype="string" null="true" default="" />
     	<field key="closed" dbtype="tinyint" precision="1" phptype="boolean" attributes="unsigned" null="false" default="0" />
         <field key="rank" dbtype="int" precision="10" phptype="integer" attributes="unsigned" null="false" default="0" />
         <field key="type" dbtype="varchar" precision="10" phptype="string" null="false" default="radio" />

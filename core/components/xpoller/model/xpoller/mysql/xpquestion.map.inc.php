@@ -30,7 +30,7 @@ $xpdo_meta_map['xpQuestion']= array (
     'text' => 
     array (
       'dbtype' => 'text',
-      'phptype' => 'text',
+      'phptype' => 'string',
       'null' => true,
       'default' => '',
     ),

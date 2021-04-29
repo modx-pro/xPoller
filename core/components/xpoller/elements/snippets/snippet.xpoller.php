@@ -52,7 +52,7 @@ $q = $modx->newQuery('xpOption');
 $q->where(array('qid' => $id));
 $q->select('`xpOption`.`id`, `xpOption`.`qid`, `xpOption`.`option`, `xpOption`.`rank`,
             `xpOption`.`right`, `xpQuestion`.`text`, COUNT(DISTINCT `xpAnswer`.`uid`) as `votes`,
-            COUNT(`DISTINCT xpAllAnswers`.`id`) as `total`');
+            COUNT(DISTINCT `xpAllAnswers`.`id`) as `total`');
 $q->leftJoin('xpQuestion', 'xpQuestion', array('`xpOption`.`qid` = `xpQuestion`.`id`'));
 $q->leftJoin('xpAnswer',   'xpAnswer',   array('`xpAnswer`.`oid` = `xpOption`.`id`'));
 $q->leftJoin('xpAnswer',   'xpAllAnswers', array('`xpAllAnswers`.`qid` = `xpQuestion`.`id`'));

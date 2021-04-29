@@ -1,5 +1,13 @@
 Changelog for xPoller.
 
+0.0.10
+==============
+- Changing phptype from text to string for text field in xpquestion.map.inc.php
+
+0.0.9
+==============
+- Fix Unknown column 'DISTINCT xpAllAnswers.id' in 'field list'
+
 0.0.8
 ==============
 - Added real percents
